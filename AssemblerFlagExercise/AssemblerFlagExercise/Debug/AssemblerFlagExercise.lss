@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.57  K:\asembler\AssemblerFlagExercise\AssemblerFlagExercise\main.asm Wed Mar 02 11:17:24 2016
+AVRASM ver. 2.1.57  K:\asembler\AssemblerFlagExercise\AssemblerFlagExercise\main.asm Fri Mar 04 09:51:30 2016
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc\m2560def.inc'
                  
@@ -1848,42 +1848,42 @@ AVRASM ver. 2.1.57  K:\asembler\AssemblerFlagExercise\AssemblerFlagExercise\main
                  ;
                  
                  
-000000 e00a      LDI R16, 10
-000001 e124      LDI R18, 20
-000002 2f12      mov r17, r18
-000003 0f10      ADD R17, R16
-000004 e302      LDI R16, 50
-000005 e624      LDI R18, 100
-000006 2f12      mov r17, r18
-000007 0f10      ADD R17, R16
-000008 e708      LDI R16, 120
-000009 e926      LDI R18, 150
-00000a 2f12      mov r17, r18
-00000b 0f10      ADD R17, R16
-00000c e104      LDI R16, 20
-00000d e926      LDI R18, 150
-00000e 2f12      mov r17, r18
-00000f 0f10      ADD R17, R16
-000010 e104      LDI R16, 20
-000011 e124      LDI R18, 20
-000012 2f12      mov r17, r18
-000013 1b10      SUB R17, R16
-000014 e104      LDI R16, 20
-000015 e02f      LDI R18, 15
-000016 2f12      mov r17, r18
-000017 1b10      SUB R17, R16
-000018 e708      LDI R16, 120
-000019 ea20      LDI R18, 160
-00001a 2f12      mov r17, r18
-00001b 1b10      SUB R17, R16
-00001c ea00      LDI R16, 160
-00001d e728      LDI R18, 120
-00001e 2f12      mov r17, r18
-00001f 1b10      SUB R17, R16
-000020 e00c      LDI R16, 12
-000021 e12e      LDI R18, 30
-000022 2f12      mov r17, r18
-000023 9f10      MUL R17, R16
+000000 e00a      LDI R16, 10						;load 00001010 into register 16, 10
+000001 e124      LDI R18, 20						;load 00010100 into register 18, 20
+000002 2f12      mov r17, r18					;move register 18 into register 17
+000003 0f10      ADD R17, R16					;add register 17 and register 18 = 30 = 00001010 + 00010100 = 00011110 no flags			
+000004 e302      LDI R16, 50						;load  into register 16, 50
+000005 e624      LDI R18, 100					;load  into register 18, 100
+000006 2f12      mov r17, r18					;move register 18 into register 17
+000007 0f10      ADD R17, R16					;add register 17 and register 18 = 150 = 00110010 + 01100100 = 10010110 V-flag set N-flag set
+000008 e708      LDI R16, 120					;load  into register 16, 120
+000009 e926      LDI R18, 150					;load  into register 18, 150
+00000a 2f12      mov r17, r18					;move register 18 into register 17
+00000b 0f10      ADD R17, R16					;add register 17 and register 18 = 270 = 01111000 + 10010110 = 00001110 C-flag set V-flag unset N-flag unset
+00000c e104      LDI R16, 20						;load  into register 16, 20
+00000d e926      LDI R18, 150					;load  into register 18, 150
+00000e 2f12      mov r17, r18					;move register 18 into register 17
+00000f 0f10      ADD R17, R16					;add register 17 and register 18 = 170 = 00010100 + 10010110 = 10101010 S-flag set N-flag set C-flag unset
+000010 e104      LDI R16, 20						;load  into register 16, 20
+000011 e124      LDI R18, 20						;load  into register 18, 20
+000012 2f12      mov r17, r18					;move register 18 into register 17
+000013 1b10      SUB R17, R16					;sub register 17 and register 18 = 0 = 00010100 - 00010100 = 00000000 S-flag unset N-flag unset Z-flag set
+000014 e708      LDI R16, 120						;load  into register 16, 20
+000015 e02f      LDI R18, 15						;load  into register 18, 15
+000016 2f12      mov r17, r18					;move register 18 into register 17
+000017 1b10      SUB R17, R16					;sub register 17 and register 18 = -5 = 00010100 - 00001111 = 11111011 S-flag set N-flag set C-flag set
+000018 e708      LDI R16, 120					;load  into register 16, 120
+000019 ea20      LDI R18, 160					;load  into register 18, 160
+00001a 2f12      mov r17, r18					;move register 18 into register 17
+00001b 1b10      SUB R17, R16					;sub register 17 and register 18 = 40 = 01111000 - 10100000 = 00101000 H-flag set S-flag ? N-flag unset C-flag unset
+00001c ea00      LDI R16, 160					;load  into register 16, 160
+00001d e728      LDI R18, 120					;load  into register 18, 120
+00001e 2f12      mov r17, r18					;move register 18 into register 17
+00001f 1b10      SUB R17, R16					;sub register 17 and register 18 = -40 = 10100000 - 01111000 = 11011000 H-flag unset S-flag unset V-flag ? n-flag set C-flag set
+000020 e00c      LDI R16, 12						;load  into register 16, 12
+000021 e12e      LDI R18, 30						;load  into register 18, 30
+000022 2f12      mov r17, r18					;move register 18 into register 17
+000023 9f10      MUL R17, R16					;multiply register 17 and register 18 = 360 = 00001100 * 00011110 = 00011110 V-flag ? N-flag ? C-flag unset
 000024 e025      ldi R18, 5
 
 
