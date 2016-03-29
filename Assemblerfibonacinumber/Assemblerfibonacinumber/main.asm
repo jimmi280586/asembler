@@ -4,105 +4,169 @@
 ; Created: 11-03-2016 10:38:03
 ; Author : jimmi
 
+ /*
+ this fibonachi program uses memory 0x21ff for calculations so the values in this stack is irelevant
+ the memory at 0x0507 is the result. our program can only give fibonachi numbers up to number 7 = 13. after it gives some problems
+ */
+  
  .org 0
 
- .def TEMP				= R16			; Temporary register
+ .def	TEMP			= R16			; Temporary register
 
  ; Set up the display output
- LDI TEMP, 0xFF							; Load 0xFF into temporary register
- OUT DDRC, TEMP							; Set Port B (LEDs) to output
+ LDI	TEMP, 0xFF						; Load 0xFF into temporary register
+ OUT	DDRC, TEMP						; Set Port B (LEDs) to output
 
- ; Initialize array pointer to the start of the array used to store the FIB numbers
- .equ MEMSTARTHIGH		= 0x05
- .equ MEMSTARTLOW		= 0x00
- LDI R27, MEMSTARTHIGH
- LDI R26, MEMSTARTLOW
+ LDI R27, 0x55
+ LDI R26, 0xAA
+ ADD R27, R26
+ CPI R27, 255
+ BREQ NEXT
+ NEXT:
+ LDI R28, 0x55
+ LDI R29, 0xAA
+ ADD R28, R29
+ CPI R28, 255
+ BREQ RUNMAIN
+ LDI TEMP, 0xFF
+ BREQ DISPLAY
+ 
+ RUNMAIN:
+ LDI R27, 0x00
+ LDI R26, 0x00
+ LDI R28, 0x00
+ LDI R29, 0x00
+
+ ; Set up delay registers and values
+ .def	DEL_OUTER		= R22
+ .def	DEL_INNER_1		= R23
+ .def	DEL_INNER_2		= R24
+ .equ	DEL_OUTER_VAL	= 0xA0
+ .equ	DEL_INNER_1_VAL = 0xA0
+ .equ	DEL_INNER_2_VAL = 0xA0
+
+ ; Set up our answer array
+ .equ	MEMSTARTHIGH	= 0x05
+ .equ   MEMSTARTLOW		= 0x00
+ LDI	R27, MEMSTARTHIGH
+ LDI	R26, MEMSTARTLOW
 
  ; Set up the stack
- LDI TEMP, low(RAMEND)
- OUT SPL, TEMP
- LDI TEMP, high(RAMEND)
- OUT SPH, TEMP
+ LDI	TEMP, low(RAMEND)
+ OUT	SPL, TEMP
+ LDI	TEMP, high(RAMEND)
+ OUT	SPH, TEMP
 
  ; =======TARGET NUMBER HERE=======
- .equ TARGET_NUMBER		= 0x01			; Anything higher than 0x0D (13) will overflow
+ .equ	TARGET_NUMBER	= 0x0D			; Anything higher than 0x0D (13) will overflow
  ; ================================
 
  ; Set up Fib math registers
- .def FIB_TARGET		= R18			; The Fibonacci number we're looking for (this is our counter and will be decremented until it hits 0)
- .def N_CURRENT			= R19			; N, the current N value
- .def N_MINUS_ONE		= R20			; N-1, the previous N value
+ .def	FIB_TARGET		= R18			; The Fibonacci number we're looking for
+ .def	CURRENT_N		= R19			; The current N (this is our loop counter)
+ .def	RESULT			= R20			; The resulting value for the current N
 
- LDI FIB_TARGET, TARGET_NUMBER			; Load our target number into the counter
+ LDI	FIB_TARGET, TARGET_NUMBER		; Load our target number into the counter
+ INC	FIB_TARGET						; Add one to the target (this is clunky, but we need to account for breaking out of our loop as soon as the current matches target)
+ LDI	CURRENT_N, 1					; Start with 1 (we have no case for 0, so the program never stops!)
 
- ; Handle 0 case
- LDI N_CURRENT, 0x00					; When N = 0, value is 0
- ST X+, N_CURRENT						; Store current value
- CPI FIB_TARGET, 0x00					; Is the target number 0?
-	 BREQ DISPLAY						; If so, break to the display loop
-
- ; Handle 1 case
- LDI N_CURRENT, 0x01					; When N = 1, value is 1
- ST X+, N_CURRENT						; Store current value
- CPI FIB_TARGET, 0x01					; Is the target number 1?
-	 BREQ DISPLAY						; If so, break to the display loop
-
-; Decrement target counter twice to account for the first two checks
- DEC FIB_TARGET							; Decrement the target counter
- DEC FIB_TARGET							; Decrement the target counter
-
- LDI N_MINUS_ONE, 0x01					; N-1 value will start at 1 (since we're at N = 2 now)
-
- MAIN:									; MAIN loop
-	ST X+, N_CURRENT					; Store current N value
-	CPI FIB_TARGET, 0x00				; When target counter reaches 0
-		BREQ DISPLAY					; Go display the result
-	RCALL FIB							; Call the FIB subroutine
-	DEC FIB_TARGET						; Decrement the counter
-	RJMP MAIN							; Repeat the loop
+ MAIN:
+	CP		CURRENT_N, FIB_TARGET		; See if our current N is the same as the target
+	BREQ	DISPLAY						; If they are equal, break out to the display loop
+	PUSH	CURRENT_N					; Push the current N onto the stack, to use as an argument in the subroutine
+	CALL	FIB							; Call the subroutine
+	POP		RESULT						; After the subroutine returns, get the result value off the stack
+	ST		X+, RESULT					; Store the result value into our results array
+	INC		CURRENT_N					; Increment N, so we can search for the next value
+	RJMP	MAIN						; Repeat the loop
 
 FIB:
-	MOV TEMP, N_CURRENT					; Stash the current N value
-	ADD N_CURRENT, N_MINUS_ONE			; Add N-1 to N (this is our N = N-1 + N-2)
-	MOV N_MINUS_ONE, TEMP				; Move the old N value to N-1
-	RET									; Return to caller
+	; Calling convention setup:
 
-DISPLAY: 
-	LD TEMP, -X							; Load the value to send to the LEDs (this is the last value sent to the X array)
-	COM TEMP							; Complement the LED value so the lights turn on instead of off
-	OUT PORTC, TEMP						; Send the LED value to Port C (LEDs)
-	END: RJMP END						; End by looping forever
+	; Store the working registers
+	PUSH	CURRENT_N					; Save the current N register
+	PUSH	RESULT						; Save the current result register
+	PUSH	R28							; Save the current stack pointer (low) register
+	PUSH	R29							; Save the current stack pointer (high) register
 
-/* SAVING BLINK CODE HERE :D */
+	; Set up the stack pointer so we can get our argument
+	IN		R28, SPL					; Load the stack pointer (low) into Y register
+	IN		R29, SPH					; Load the stack pointer (high) into Y register
+	; Set the stack pointer to point to our argument
+	ADIW	R28, 9						; Add 9 to stack pointer, to account for our pushes (6 bytes) and for the return pointer (3 bytes) going onto the stack
+	LD		CURRENT_N, -Y				; Get the current N value using our pointer in the Y register
 
+	; Handle one/two cases
+	CPI		CURRENT_N, 1				; Is the current N value 1?
+	BREQ	FIB_1_2						; Go to the loop for handling the 1 and 2 cases
+	CPI		CURRENT_N, 2				; Is the current N value 2?
+	BREQ	FIB_1_2						; Go to the loop for handling the 1 and 2 cases
 
- ; Set up delay subroutine
- .def DEL_OUTER = R22
- .def DEL_INNER_1 = R23
- .def DEL_INNER_2 = R24
- .equ DEL_OUTER_VAL = 0xA0
- .equ DEL_INNER_1_VAL = 0xA0
- .equ DEL_INNER_2_VAL = 0xA0
+	RJMP	FIB_OTHER					; Go to the loop for handling all other cases
 
-	LDI TEMP, 0xFF					; Load LED off value to the temp port
+	FIB_1_2:							; Loop for handling 1 and 2 cases
+		LDI		TEMP, 0x01
+		ST		Y, TEMP					; Store the value 1 as our answer (N == 1)
+		; Restore registers from the stack (in reverse order)
+		POP		R29						; Restore the stack pointer (Y high)
+		POP		R28						; Restore the stack pointer (Y low)
+		POP		RESULT					; Restore the result register
+		POP		CURRENT_N				; Restore the N register
+		RET								; Return to caller
+
+	FIB_OTHER:							; Loop for handling all cases other than 1 or 2
+
+		; Fib algorithm: N = N-1 + N-2
+
+		; Get the value for N-1
+		DEC		CURRENT_N				; Decrement N, to get N-1
+		PUSH	CURRENT_N				; Push N so that it is an argument for the FIB subroutine call
+		CALL	FIB						; Recursive call back into the FIB subroutine
+		POP		RESULT					; Get the result back from the algorithm
+
+		; Get the value for N-2
+		DEC		CURRENT_N				; Decrement N, to get N-2
+		PUSH	CURRENT_N				; Push N so that it is an argument for the FIB subroutine call
+		CALL	FIB						; Recursive call back into FIB algorithm
+		POP		CURRENT_N				; Get the result back from the algorithm (We'll store this in the N register)
+
+		ADD		RESULT, CURRENT_N		; Add N-1 and N-2 to get our new N value
+		ST		Y, RESULT				; Store our result in the Y stack pointer, which is still conveniently pointing at the argument, so we'll just use it :) 
+										; Restore registers from the stack (in reverse order)
+		POP		R29						; Restore the stack pointer (Y high)
+		POP		R28						; Restore the stack pointer (Y low)
+		POP		RESULT					; Restore the result register
+		POP		CURRENT_N				; Restore the N register
+		RET								; Return to caller
+
+	DISPLAY:							; Display the fib numbers using the LEDs
+		LDI R26, 0x00					; Reset the X array pointer to the start of the array
+		RUN:							; Loop for sending values to LEDs
+		LD TEMP, X+						; Increment array index
+		COM TEMP						; Turns temp value to be displayed
+		RJMP BLINK						; Run blink loop
+		RJMP RUN						; Jump back to start of loop
+
+		LDI R17, 0xFF					; Load LED off value to the temp port
+
 	BLINK: 
-		OUT PORTC, LED_VALUE		; Send the Fib result value to the LEDs
-		CALL DELAY					; Delay
-		OUT PORTC, TEMP				; Turn the LEDs off
-		CALL DELAY					; Delay
-		RJMP BLINK					; Repeat
+		OUT PORTC, TEMP					; Send the Fib result value to the LEDs
+		CALL DELAY						; Delay
+		OUT PORTC, R17					; Turn the LEDs off
+		CALL DELAY						; Delay
+		RJMP RUN						; Repeat
 
- DELAY:
-	 LDI DEL_OUTER, DEL_OUTER_VAL
-	 OUTER: 
-		LDI DEL_INNER_1, DEL_INNER_1_VAL
-		INNER_1: 
-			LDI DEL_INNER_2, DEL_INNER_2_VAL
-			INNER_2: 
-				DEC DEL_INNER_2 
-				BRNE INNER_2 
-				DEC DEL_INNER_1 
-				BRNE INNER_1 
-				DEC DEL_OUTER
-				BRNE OUTER 
-				RET 	   
+	 DELAY:
+		 LDI DEL_OUTER, DEL_OUTER_VAL
+		 OUTER: 
+			LDI DEL_INNER_1, DEL_INNER_1_VAL
+				INNER_1: 
+					LDI DEL_INNER_2, DEL_INNER_2_VAL
+						INNER_2: 
+						DEC DEL_INNER_2 
+						BRNE INNER_2 
+						DEC DEL_INNER_1 
+						BRNE INNER_1 
+						DEC DEL_OUTER
+						BRNE OUTER 
+						RET 	
