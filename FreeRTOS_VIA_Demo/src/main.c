@@ -128,7 +128,7 @@ void vTask1(void *pvParameters) {
 	
 	while (1) {
 		PORTB = 0xfd;
-		vTaskDelay(2000);		
+		vTaskSuspend(x1Handle);		
 	}
 	vTaskDelete(NULL);
 }
@@ -136,25 +136,42 @@ void vTask1(void *pvParameters) {
 void vTask2(void *pvParameters) {
 	// Remove compiler warnings.
 	(void) pvParameters;
-	vTaskDelay(1000);
+	//vTaskDelay(1000);
 	while (1) {
 		PORTB = 0xff;
-		vTaskDelay(2000);
+		vTaskResume(x2Handle);
+		//vTaskDelay(2000);
 	}
 	vTaskDelete(NULL);
+}
+
+void vTask3(void *pvParameters)
+{
+	vTaskDelay(200);
+	xTaskCreate(vTask1, "Task 1", configMINIMAL_STACK_SIZE, NULL,
+	task1_TASK_PRIORITY, NULL);
+	vTaskDelay(100);
+	vTaskResume(x1Handle);
+	vTaskDelay(200);
+	xTaskCreate(vTask2, "Task 2", configMINIMAL_STACK_SIZE, NULL,
+	task1_TASK_PRIORITY, NULL);
+	vTaskDelay(100);
+	vTaskResume(x2Handle);
 }
 
 int main( void )
 {
 	DDRB = 0xff;
-	PORTB = 0xfe;
+	PORTB = 0xfd;
 	
+	xTaskCreate(vTask3, "Task 3", configMINIMAL_STACK_SIZE, NULL,
+	task1_TASK_PRIORITY, NULL);
 
-	xTaskCreate(vTask1, "Task 1", configMINIMAL_STACK_SIZE, NULL,
+/*	xTaskCreate(vTask1, "Task 1", configMINIMAL_STACK_SIZE, NULL,
 	task1_TASK_PRIORITY, NULL);
 	xTaskCreate(vTask2, "Task 2", configMINIMAL_STACK_SIZE, NULL,
 	task2_TASK_PRIORITY, NULL);
-
+	*/
 	
 	vTaskStartScheduler();
 

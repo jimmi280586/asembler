@@ -24,8 +24,7 @@ src/FreeRTOS/Source/queue.d src/FreeRTOS/Source/queue.o: \
  ../src/FreeRTOS/Source/include/mpu_wrappers.h \
  ../src/FreeRTOS/Source/include/task.h \
  ../src/FreeRTOS/Source/include/list.h \
- ../src/FreeRTOS/Source/include/queue.h \
- ../src/FreeRTOS/Source/include/croutine.h
+ ../src/FreeRTOS/Source/include/queue.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
 
@@ -76,5 +75,3 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../src/FreeRTOS/Source/include/list.h:
 
 ../src/FreeRTOS/Source/include/queue.h:
-
-../src/FreeRTOS/Source/include/croutine.h:
