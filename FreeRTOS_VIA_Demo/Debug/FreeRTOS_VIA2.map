@@ -7,7 +7,7 @@ c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/..
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_negsi2.o)
                               c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_divmodsi4.o) (__negsi2)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_exit.o)
-                              C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega2560/avr6/crtatmega2560.o (exit)
+                              C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega2560/avr6/crtatmega2560.o (exit)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_copy_data.o)
                               src/Common/Minimal/comtest.o (__do_copy_data)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a(_clear_bss.o)
@@ -27,8 +27,8 @@ xQueue1             0x2               src/main.o
 
 Discarded input sections
 
- .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega2560/avr6/crtatmega2560.o
+ .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega2560/avr6/crtatmega2560.o
+ .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega2560/avr6/crtatmega2560.o
  .text          0x00000000        0x0 src/Common/Minimal/comtest.o
  .data          0x00000000        0x0 src/Common/Minimal/comtest.o
  .bss           0x00000000        0x0 src/Common/Minimal/comtest.o
@@ -50,7 +50,7 @@ Discarded input sections
                 0x00000000       0x38 src/Common/Minimal/comtest.o
  .debug_ranges  0x00000000       0x28 src/Common/Minimal/comtest.o
  .debug_line    0x00000000      0x27c src/Common/Minimal/comtest.o
- .debug_str     0x00000000      0x29d src/Common/Minimal/comtest.o
+ .debug_str     0x00000000      0x2b0 src/Common/Minimal/comtest.o
  .comment       0x00000000       0x31 src/Common/Minimal/comtest.o
  .debug_frame   0x00000000       0xb8 src/Common/Minimal/comtest.o
  .text          0x00000000        0x0 src/Common/Minimal/crflash.o
@@ -77,7 +77,7 @@ Discarded input sections
                 0x00000000       0x38 src/Common/Minimal/crflash.o
  .debug_ranges  0x00000000       0x28 src/Common/Minimal/crflash.o
  .debug_line    0x00000000      0x294 src/Common/Minimal/crflash.o
- .debug_str     0x00000000      0x33a src/Common/Minimal/crflash.o
+ .debug_str     0x00000000      0x34d src/Common/Minimal/crflash.o
  .comment       0x00000000       0x31 src/Common/Minimal/crflash.o
  .debug_frame   0x00000000       0x94 src/Common/Minimal/crflash.o
  .text          0x00000000        0x0 src/Common/Minimal/integer.o
@@ -98,7 +98,7 @@ Discarded input sections
                 0x00000000       0x30 src/Common/Minimal/integer.o
  .debug_ranges  0x00000000       0x20 src/Common/Minimal/integer.o
  .debug_line    0x00000000      0x1a0 src/Common/Minimal/integer.o
- .debug_str     0x00000000      0x238 src/Common/Minimal/integer.o
+ .debug_str     0x00000000      0x24b src/Common/Minimal/integer.o
  .comment       0x00000000       0x31 src/Common/Minimal/integer.o
  .debug_frame   0x00000000       0x98 src/Common/Minimal/integer.o
  .text          0x00000000        0x0 src/Common/Minimal/PollQ.o
@@ -114,7 +114,7 @@ Discarded input sections
  .lowtext       0x00000000      0x112 src/Common/Minimal/PollQ.o
  .text.xArePollingQueuesStillRunning
                 0x00000000       0x34 src/Common/Minimal/PollQ.o
- .bss.xPolledQueue.2007
+ .bss.xPolledQueue.2000
                 0x00000000        0x2 src/Common/Minimal/PollQ.o
  .debug_info    0x00000000      0x1f1 src/Common/Minimal/PollQ.o
  .debug_abbrev  0x00000000       0xb3 src/Common/Minimal/PollQ.o
@@ -123,7 +123,7 @@ Discarded input sections
                 0x00000000       0x38 src/Common/Minimal/PollQ.o
  .debug_ranges  0x00000000       0x28 src/Common/Minimal/PollQ.o
  .debug_line    0x00000000      0x261 src/Common/Minimal/PollQ.o
- .debug_str     0x00000000      0x29a src/Common/Minimal/PollQ.o
+ .debug_str     0x00000000      0x2ad src/Common/Minimal/PollQ.o
  .comment       0x00000000       0x31 src/Common/Minimal/PollQ.o
  .debug_frame   0x00000000       0xb8 src/Common/Minimal/PollQ.o
  .text          0x00000000        0x0 src/FreeRTOS/Source/event_groups.o
@@ -156,7 +156,7 @@ Discarded input sections
                 0x00000000       0x68 src/FreeRTOS/Source/event_groups.o
  .debug_ranges  0x00000000       0x58 src/FreeRTOS/Source/event_groups.o
  .debug_line    0x00000000      0x4e5 src/FreeRTOS/Source/event_groups.o
- .debug_str     0x00000000      0x4da src/FreeRTOS/Source/event_groups.o
+ .debug_str     0x00000000      0x4ed src/FreeRTOS/Source/event_groups.o
  .comment       0x00000000       0x31 src/FreeRTOS/Source/event_groups.o
  .debug_frame   0x00000000      0x160 src/FreeRTOS/Source/event_groups.o
  .text          0x00000000        0x0 src/FreeRTOS/Source/list.o
@@ -168,9 +168,16 @@ Discarded input sections
  .debug_info    0x00000000       0x64 src/FreeRTOS/Source/portable/croutine.o
  .debug_abbrev  0x00000000       0x26 src/FreeRTOS/Source/portable/croutine.o
  .debug_aranges
+<<<<<<< HEAD
+                0x00000000       0x50 src/FreeRTOS/Source/portable/croutine.o
+ .debug_ranges  0x00000000       0x40 src/FreeRTOS/Source/portable/croutine.o
+ .debug_line    0x00000000      0x42f src/FreeRTOS/Source/portable/croutine.o
+ .debug_str     0x00000000      0x4e7 src/FreeRTOS/Source/portable/croutine.o
+=======
                 0x00000000       0x18 src/FreeRTOS/Source/portable/croutine.o
  .debug_line    0x00000000       0x1a src/FreeRTOS/Source/portable/croutine.o
  .debug_str     0x00000000      0x175 src/FreeRTOS/Source/portable/croutine.o
+>>>>>>> dacf3a3b2db76236cd70c9c945447ac0aa548a60
  .comment       0x00000000       0x31 src/FreeRTOS/Source/portable/croutine.o
  .text          0x00000000        0x0 src/FreeRTOS/Source/portable/GCC/ATMega256x/port.o
  .data          0x00000000        0x0 src/FreeRTOS/Source/portable/GCC/ATMega256x/port.o
@@ -266,7 +273,7 @@ Discarded input sections
  .debug_aranges
                 0x00000000       0x18 src/FreeRTOS/Source/timers.o
  .debug_line    0x00000000       0x1a src/FreeRTOS/Source/timers.o
- .debug_str     0x00000000      0x16a src/FreeRTOS/Source/timers.o
+ .debug_str     0x00000000      0x17d src/FreeRTOS/Source/timers.o
  .comment       0x00000000       0x31 src/FreeRTOS/Source/timers.o
  .text          0x00000000        0x0 src/main.o
  .data          0x00000000        0x0 src/main.o
@@ -411,7 +418,7 @@ user_signatures  0x00850000         0x00000400         rw !x
 Linker script and memory map
 
 Address of section .data set to 0x800200
-LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega2560/avr6/crtatmega2560.o
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega2560/avr6/crtatmega2560.o
 LOAD src/Common/Minimal/comtest.o
 LOAD src/Common/Minimal/crflash.o
 LOAD src/Common/Minimal/integer.o
@@ -433,15 +440,8 @@ START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr6\libgcc.a
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr6\libm.a
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr6\libc.a
-LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega2560/avr6\libatmega2560.a
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega2560/avr6\libatmega2560.a
 END GROUP
-                0x00100000                __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x100000
-                0x0000fe00                __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xfe00
-                0x00010000                __EEPROM_REGION_LENGTH__ = DEFINED (__EEPROM_REGION_LENGTH__)?__EEPROM_REGION_LENGTH__:0x10000
-                0x00000400                __FUSE_REGION_LENGTH__ = DEFINED (__FUSE_REGION_LENGTH__)?__FUSE_REGION_LENGTH__:0x400
-                0x00000400                __LOCK_REGION_LENGTH__ = DEFINED (__LOCK_REGION_LENGTH__)?__LOCK_REGION_LENGTH__:0x400
-                0x00000400                __SIGNATURE_REGION_LENGTH__ = DEFINED (__SIGNATURE_REGION_LENGTH__)?__SIGNATURE_REGION_LENGTH__:0x400
-                0x00000400                __USER_SIGNATURE_REGION_LENGTH__ = DEFINED (__USER_SIGNATURE_REGION_LENGTH__)?__USER_SIGNATURE_REGION_LENGTH__:0x400
 
 .hash
  *(.hash)
@@ -535,7 +535,7 @@ END GROUP
 
 .text           0x00000000     0x1fec
  *(.vectors)
- .vectors       0x00000000       0xe4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega2560/avr6/crtatmega2560.o
+ .vectors       0x00000000       0xe4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega2560/avr6/crtatmega2560.o
                 0x00000000                __vectors
  *(.vectors)
  *(.progmem.gcc*)
@@ -545,8 +545,6 @@ END GROUP
  .trampolines   0x000000e4        0x0 linker stubs
  *(.trampolines*)
                 0x000000e4                __trampolines_end = .
- *libprintf_flt.a:*(.progmem.data)
- *libc.a:*(.progmem.data)
  *(.progmem*)
                 0x000000e4                . = ALIGN (0x2)
  *(.jumptables)
@@ -563,13 +561,13 @@ END GROUP
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000108        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega2560/avr6/crtatmega2560.o
+ .init0         0x00000108        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega2560/avr6/crtatmega2560.o
                 0x00000108                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000108       0x10 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega2560/avr6/crtatmega2560.o
+ .init2         0x00000108       0x10 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega2560/avr6/crtatmega2560.o
  *(.init2)
  *(.init3)
  *(.init3)
@@ -588,10 +586,10 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000142        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega2560/avr6/crtatmega2560.o
+ .init9         0x00000142        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega2560/avr6/crtatmega2560.o
  *(.init9)
  *(.text)
- .text          0x0000014a        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega2560/avr6/crtatmega2560.o
+ .text          0x0000014a        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega2560/avr6/crtatmega2560.o
                 0x0000014a                __vector_38
                 0x0000014a                __vector_22
                 0x0000014a                __vector_28
@@ -823,9 +821,15 @@ END GROUP
                 0x0080021e        0x2 src/FreeRTOS/Source/portable/GCC/ATMega256x/port.o
  .bss.ucHeap    0x00800220      0x9c4 src/FreeRTOS/Source/portable/MemMang/heap_1.o
  .bss.xNextFreeByte
+<<<<<<< HEAD
+                0x00800bde        0x2 src/FreeRTOS/Source/portable/MemMang/heap_1.o
+ .bss.pucAlignedHeap.1885
+                0x00800be0        0x2 src/FreeRTOS/Source/portable/MemMang/heap_1.o
+=======
                 0x00800be4        0x2 src/FreeRTOS/Source/portable/MemMang/heap_1.o
  .bss.pucAlignedHeap.1892
                 0x00800be6        0x2 src/FreeRTOS/Source/portable/MemMang/heap_1.o
+>>>>>>> dacf3a3b2db76236cd70c9c945447ac0aa548a60
  .bss.pxCurrentTCB
                 0x00800be8        0x2 src/FreeRTOS/Source/tasks.o
                 0x00800be8                pxCurrentTCB
@@ -870,6 +874,18 @@ END GROUP
  .bss.xCharsForTx
                 0x00800c4c        0x2 src/serial/serial.o
  *(COMMON)
+<<<<<<< HEAD
+                0x00800c3f                PROVIDE (__bss_end, .)
+                0x00001d6a                __data_load_start = LOADADDR (.data)
+                0x00001d80                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00800c3f        0x0
+                0x00800c3f                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x00800c3f                PROVIDE (__noinit_end, .)
+                0x00800c3f                _end = .
+                0x00800c3f                PROVIDE (__heap_start, .)
+=======
  COMMON         0x00800c4e        0x8 src/main.o
                 0x00800c4e                xSemaphore
                 0x00800c50                x1Handle
@@ -885,6 +901,7 @@ END GROUP
                 [!provide]                PROVIDE (__noinit_end, .)
                 0x00800c56                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
+>>>>>>> dacf3a3b2db76236cd70c9c945447ac0aa548a60
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -937,7 +954,7 @@ END GROUP
 .note.gnu.avr.deviceinfo
                 0x00000000       0x40
  .note.gnu.avr.deviceinfo
-                0x00000000       0x40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.106/gcc/dev/atmega2560/avr6/crtatmega2560.o
+                0x00000000       0x40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega2560/avr6/crtatmega2560.o
 
 .note.gnu.build-id
  *(.note.gnu.build-id)
@@ -1014,6 +1031,24 @@ END GROUP
  .debug_frame   0x000009d8      0x160 src/main.o
  .debug_frame   0x00000b38      0x164 src/serial/serial.o
 
+<<<<<<< HEAD
+.debug_str      0x00000000     0x11e7
+ *(.debug_str)
+ .debug_str     0x00000000      0x276 src/FreeRTOS/Source/list.o
+                                0x2b5 (size before relaxing)
+ .debug_str     0x00000276      0x15a src/FreeRTOS/Source/portable/GCC/ATMega256x/port.o
+                                0x2cd (size before relaxing)
+ .debug_str     0x000003d0       0xb3 src/FreeRTOS/Source/portable/MemMang/heap_1.o
+                                0x221 (size before relaxing)
+ .debug_str     0x00000483      0x408 src/FreeRTOS/Source/queue.o
+                                0x669 (size before relaxing)
+ .debug_str     0x0000088b      0x794 src/FreeRTOS/Source/tasks.o
+                                0xa99 (size before relaxing)
+ .debug_str     0x0000101f       0xcb src/main.o
+                                0x24d (size before relaxing)
+ .debug_str     0x000010ea       0xfd src/serial/serial.o
+                                0x2bc (size before relaxing)
+=======
 .debug_str      0x00000000     0x119d
  *(.debug_str)
  .debug_str     0x00000000      0x263 src/FreeRTOS/Source/list.o
@@ -1030,6 +1065,7 @@ END GROUP
                                 0x23a (size before relaxing)
  .debug_str     0x000010a0       0xfd src/serial/serial.o
                                 0x2a9 (size before relaxing)
+>>>>>>> dacf3a3b2db76236cd70c9c945447ac0aa548a60
 
 .debug_loc      0x00000000     0x1a80
  *(.debug_loc)

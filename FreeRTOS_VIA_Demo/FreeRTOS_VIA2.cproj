@@ -33,7 +33,11 @@
         <documentation help="" />
         <offline-documentation help="" />
         <dependencies>
+<<<<<<< HEAD
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.18.1" />
+=======
           <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.22.0" />
+>>>>>>> dacf3a3b2db76236cd70c9c945447ac0aa548a60
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
@@ -69,17 +73,21 @@
         <InterfaceName>ISP</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.stk600</ToolType>
-      <ToolNumber>0048395C6F9B</ToolNumber>
+      <ToolNumber>004A8D686BE6</ToolNumber>
       <ToolName>STK600</ToolName>
     </com_atmel_avrdbg_tool_stk600>
-    <avrtoolserialnumber>0048395C6F9B</avrtoolserialnumber>
+    <avrtoolserialnumber>004A8D686BE6</avrtoolserialnumber>
     <avrdeviceexpectedsignature>0x1E9801</avrdeviceexpectedsignature>
     <avrtoolinterfaceclock>125000</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
       <AvrGcc>
+<<<<<<< HEAD
+        <avrgcc.common.Device>-mmcu=atmega2560 -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.0.90\gcc\dev\atmega2560"</avrgcc.common.Device>
+=======
         <avrgcc.common.Device>-mmcu=atmega2560 -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.0.106\gcc\dev\atmega2560"</avrgcc.common.Device>
+>>>>>>> dacf3a3b2db76236cd70c9c945447ac0aa548a60
         <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
         <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
@@ -95,7 +103,11 @@
         </avrgcc.compiler.symbols.DefSymbols>
         <avrgcc.compiler.directories.IncludePaths>
           <ListValues>
+<<<<<<< HEAD
+            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.0.90\include</Value>
+=======
             <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.0.106\include</Value>
+>>>>>>> dacf3a3b2db76236cd70c9c945447ac0aa548a60
           </ListValues>
         </avrgcc.compiler.directories.IncludePaths>
         <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
@@ -107,18 +119,25 @@
             <Value>libm</Value>
           </ListValues>
         </avrgcc.linker.libraries.Libraries>
+<<<<<<< HEAD
+=======
         <avrgcc.assembler.general.IncludePaths>
           <ListValues>
             <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.0.106\include</Value>
           </ListValues>
         </avrgcc.assembler.general.IncludePaths>
+>>>>>>> dacf3a3b2db76236cd70c9c945447ac0aa548a60
       </AvrGcc>
     </ToolchainSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
       <AvrGcc>
+<<<<<<< HEAD
+        <avrgcc.common.Device>-mmcu=atmega2560 -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.0.90\gcc\dev\atmega2560"</avrgcc.common.Device>
+=======
         <avrgcc.common.Device>-mmcu=atmega2560 -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.0.106\gcc\dev\atmega2560"</avrgcc.common.Device>
+>>>>>>> dacf3a3b2db76236cd70c9c945447ac0aa548a60
         <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
         <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
         <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
@@ -140,7 +159,11 @@
             <Value>../src/FreeRTOS/Source/portable/GCC/ATMega256x</Value>
             <Value>../src/FreeRTOS/Source/include</Value>
             <Value>../src/Common/include</Value>
+<<<<<<< HEAD
+            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.0.90\include</Value>
+=======
             <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.0.106\include</Value>
+>>>>>>> dacf3a3b2db76236cd70c9c945447ac0aa548a60
           </ListValues>
         </avrgcc.compiler.directories.IncludePaths>
         <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
@@ -152,11 +175,14 @@
             <Value>libm</Value>
           </ListValues>
         </avrgcc.linker.libraries.Libraries>
+<<<<<<< HEAD
+=======
         <avrgcc.assembler.general.IncludePaths>
           <ListValues>
             <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.0.106\include</Value>
           </ListValues>
         </avrgcc.assembler.general.IncludePaths>
+>>>>>>> dacf3a3b2db76236cd70c9c945447ac0aa548a60
         <avrgcc.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcc.assembler.debugging.DebugLevel>
       </AvrGcc>
     </ToolchainSettings>

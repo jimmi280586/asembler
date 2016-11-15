@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "FreeRTOS_VIA_Timers", "FreeRTOS_VIA_Timers.cproj", "{B3185272-FB05-43F3-938C-3F6032CD2689}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3185272-FB05-43F3-938C-3F6032CD2689}.Debug|AVR.ActiveCfg = Debug|AVR
+		{B3185272-FB05-43F3-938C-3F6032CD2689}.Debug|AVR.Build.0 = Debug|AVR
+		{B3185272-FB05-43F3-938C-3F6032CD2689}.Release|AVR.ActiveCfg = Release|AVR
+		{B3185272-FB05-43F3-938C-3F6032CD2689}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
