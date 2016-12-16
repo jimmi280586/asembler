@@ -1,5 +1,5 @@
 /*
-    FreeRTOS V8.2.1 - Copyright (C) 2015 Real Time Engineers Ltd.
+    FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
     All rights reserved
 
     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
@@ -8,7 +8,7 @@
 
     FreeRTOS is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License (version 2) as published by the
-    Free Software Foundation >>!AND MODIFIED BY!<< the FreeRTOS exception.
+    Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
 
     ***************************************************************************
     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
@@ -68,134 +68,121 @@
 */
 
 
-
+/*
+ * The simplest possible implementation of pvPortMalloc().  Note that this
+ * implementation does NOT allow allocated memory to be freed again.
+ *
+ * See heap_2.c, heap_3.c and heap_4.c for alternative implementations, and the
+ * memory management pages of http://www.FreeRTOS.org for more information.
+ */
 #include <stdlib.h>
-#include <string.h>
 
-#include <avr/interrupt.h>
+/* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
+all the API functions to use the MPU wrappers.  That should only be done when
+task.h is included from an application file. */
+#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#ifdef GCC_MEGA_AVR
-	/* EEPROM routines used only with the WinAVR compiler. */
-	#include <avr/eeprom.h>
-#endif
-
-/* Scheduler include files. */
 #include "FreeRTOS.h"
 #include "task.h"
-#include "croutine.h"
-#include "semphr.h"
 
+#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
+#if( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
+	#error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
+#endif
 
+/* A few bytes might be lost to byte aligning the heap start address. */
+#define configADJUSTED_HEAP_SIZE	( configTOTAL_HEAP_SIZE - portBYTE_ALIGNMENT )
 
-/* Priority definitions for most of the tasks in the demo application.  Some
-tasks just use the idle priority. */
+/* Allocate the memory for the heap. */
+/* Allocate the memory for the heap. */
+#if( configAPPLICATION_ALLOCATED_HEAP == 1 )
+	/* The application writer has already defined the array used for the RTOS
+	heap - probably so it can be placed in a special segment or address. */
+	extern uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
+#else
+	static uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
+#endif /* configAPPLICATION_ALLOCATED_HEAP */
 
-#define task1_TASK_PRIORITY					( tskIDLE_PRIORITY + 5 )
-#define task2_TASK_PRIORITY					( tskIDLE_PRIORITY + 4 )
-#define task3_TASK_PRIORITY					( tskIDLE_PRIORITY + 3 )
-#define task4_TASK_PRIORITY					( tskIDLE_PRIORITY + 2 )
-
-
-/*
- * Checks the unique counts of other tasks to ensure they are still operational.
- * Flashes an LED if everything is okay.
- */
-
-
-/*
- * Called on boot to increment a count stored in the EEPROM.  This is used to
- * ensure the CPU does not reset unexpectedly.
- */
-//static void prvIncrementResetCount( void );
-
-/*
- * The idle hook is used to scheduler co-routines.
- */
-void vApplicationIdleHook( void );
+static size_t xNextFreeByte = ( size_t ) 0;
 
 /*-----------------------------------------------------------*/
 
-// Global objects
-SemaphoreHandle_t xSemaphore;
-QueueHandle_t xQueue1;
-TaskHandle_t x1Handle;
-TaskHandle_t x2Handle;
+void *pvPortMalloc( size_t xWantedSize )
+{
+void *pvReturn = NULL;
+static uint8_t *pucAlignedHeap = NULL;
 
-void vTask1(void *pvParameters) {
-	// Remove compiler warnings.
-	(void) pvParameters;
-	
-	while (1) {
-		PORTB = 0xfd;
-		vTaskSuspend(x1Handle);		
+	/* Ensure that blocks are always aligned to the required number of bytes. */
+	#if( portBYTE_ALIGNMENT != 1 )
+	{
+		if( xWantedSize & portBYTE_ALIGNMENT_MASK )
+		{
+			/* Byte alignment required. */
+			xWantedSize += ( portBYTE_ALIGNMENT - ( xWantedSize & portBYTE_ALIGNMENT_MASK ) );
+		}
 	}
-	vTaskDelete(NULL);
-}
+	#endif
 
-void vTask2(void *pvParameters) {
-	// Remove compiler warnings.
-	(void) pvParameters;
-	//vTaskDelay(1000);
-	while (1) {
-		PORTB = 0xff;
-		vTaskResume(x2Handle);
-		//vTaskDelay(2000);
+	vTaskSuspendAll();
+	{
+		if( pucAlignedHeap == NULL )
+		{
+			/* Ensure the heap starts on a correctly aligned boundary. */
+			pucAlignedHeap = ( uint8_t * ) ( ( ( portPOINTER_SIZE_TYPE ) &ucHeap[ portBYTE_ALIGNMENT ] ) & ( ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) ) );
+		}
+
+		/* Check there is enough room left for the allocation. */
+		if( ( ( xNextFreeByte + xWantedSize ) < configADJUSTED_HEAP_SIZE ) &&
+			( ( xNextFreeByte + xWantedSize ) > xNextFreeByte )	)/* Check for overflow. */
+		{
+			/* Return the next free byte then increment the index past this
+			block. */
+			pvReturn = pucAlignedHeap + xNextFreeByte;
+			xNextFreeByte += xWantedSize;
+		}
+
+		traceMALLOC( pvReturn, xWantedSize );
 	}
-	vTaskDelete(NULL);
-}
+	( void ) xTaskResumeAll();
 
-void vTask3(void *pvParameters)
-{
-	vTaskDelay(200);
-	xTaskCreate(vTask1, "Task 1", configMINIMAL_STACK_SIZE, NULL,
-	task1_TASK_PRIORITY, NULL);
-	vTaskDelay(100);
-	vTaskResume(x1Handle);
-	vTaskDelay(200);
-	xTaskCreate(vTask2, "Task 2", configMINIMAL_STACK_SIZE, NULL,
-	task1_TASK_PRIORITY, NULL);
-	vTaskDelay(100);
-	vTaskResume(x2Handle);
-}
+	#if( configUSE_MALLOC_FAILED_HOOK == 1 )
+	{
+		if( pvReturn == NULL )
+		{
+			extern void vApplicationMallocFailedHook( void );
+			vApplicationMallocFailedHook();
+		}
+	}
+	#endif
 
-int main( void )
-{
-	DDRB = 0xff;
-	PORTB = 0xfd;
-	
-	xTaskCreate(vTask3, "Task 3", configMINIMAL_STACK_SIZE, NULL,
-	task1_TASK_PRIORITY, NULL);
-
-/*	xTaskCreate(vTask1, "Task 1", configMINIMAL_STACK_SIZE, NULL,
-	task1_TASK_PRIORITY, NULL);
-	xTaskCreate(vTask2, "Task 2", configMINIMAL_STACK_SIZE, NULL,
-	task2_TASK_PRIORITY, NULL);
-	*/
-	
-	vTaskStartScheduler();
-
-	return 0;
+	return pvReturn;
 }
 /*-----------------------------------------------------------*/
 
+void vPortFree( void *pv )
+{
+	/* Memory cannot be freed using this scheme.  See heap_2.c, heap_3.c and
+	heap_4.c for alternative implementations, and the memory management pages of
+	http://www.FreeRTOS.org for more information. */
+	( void ) pv;
 
-
+	/* Force an assert as it is invalid to call this function. */
+	configASSERT( pv == NULL );
+}
 /*-----------------------------------------------------------*/
 
-
+void vPortInitialiseBlocks( void )
+{
+	/* Only required when static memory is not cleared. */
+	xNextFreeByte = ( size_t ) 0;
+}
 /*-----------------------------------------------------------*/
 
-void vApplicationIdleHook( void )
+size_t xPortGetFreeHeapSize( void )
 {
-	//vCoRoutineSchedule();
+	return ( configADJUSTED_HEAP_SIZE - xNextFreeByte );
 }
 
-ISR(BADISR_vect)
-{
-	PORTA &= ~_BV(PA1);
-}
 
-void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName ) {
-	PORTA |= _BV(PA7);
-}
+

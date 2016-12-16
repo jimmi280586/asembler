@@ -1,5 +1,5 @@
 /*
-    FreeRTOS V8.2.1 - Copyright (C) 2015 Real Time Engineers Ltd.
+    FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
     All rights reserved
 
     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
@@ -8,7 +8,7 @@
 
     FreeRTOS is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License (version 2) as published by the
-    Free Software Foundation >>!AND MODIFIED BY!<< the FreeRTOS exception.
+    Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
 
     ***************************************************************************
     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
@@ -67,55 +67,85 @@
     1 tab == 4 spaces!
 */
 
-#ifndef FREERTOS_CONFIG_H
-#define FREERTOS_CONFIG_H
+/*
+Changes from V1.2.3
 
-#include <avr/io.h>
+	+ portCPU_CLOSK_HZ definition changed to 8MHz base 10, previously it
+	  base 16.
+*/
+
+#ifndef PORTMACRO_H
+#define PORTMACRO_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*-----------------------------------------------------------
- * Application specific definitions.
+ * Port specific definitions.
  *
- * These definitions should be adjusted for your particular hardware and
- * application requirements.
+ * The settings in this file configure FreeRTOS correctly for the
+ * given hardware and compiler.
  *
- * THESE PARAMETERS ARE DESCRIBED WITHIN THE 'CONFIGURATION' SECTION OF THE
- * FreeRTOS API DOCUMENTATION AVAILABLE ON THE FreeRTOS.org WEB SITE. 
- *
- * See http://www.freertos.org/a00110.html.
- *----------------------------------------------------------*/
+ * These settings should not be altered.
+ *-----------------------------------------------------------
+ */
 
-#define portUSE_TIMER3											// portUSE_TIMER3 to use 16 bit Timer3
+/* Type definitions. */
+#define portCHAR		char
+#define portFLOAT		float
+#define portDOUBLE		double
+#define portLONG		long
+#define portSHORT		int
+#define portSTACK_TYPE	uint8_t
+#define portBASE_TYPE	char
 
-#define configUSE_PREEMPTION		1
-#define configUSE_IDLE_HOOK			1
-#define configUSE_TICK_HOOK			0
-#define configCPU_CLOCK_HZ			( ( unsigned long ) F_CPU )
-#define configTICK_RATE_HZ			( ( TickType_t ) 1000 )
-#define configMAX_PRIORITIES		( 4 )
-#define configMINIMAL_STACK_SIZE	( ( unsigned short ) 185 )
-#define configTOTAL_HEAP_SIZE		( (size_t ) ( 2500 ) )
-#define configMAX_TASK_NAME_LEN		( 8 )
-#define configUSE_TRACE_FACILITY	0
-#define configUSE_16_BIT_TICKS		1
-#define configIDLE_SHOULD_YIELD		1
-#define configQUEUE_REGISTRY_SIZE	0
-#define configCHECK_FOR_STACK_OVERFLOW	1
+typedef portSTACK_TYPE StackType_t;
+typedef signed char BaseType_t;
+typedef unsigned char UBaseType_t;
 
+#if( configUSE_16_BIT_TICKS == 1 )
+	typedef uint16_t TickType_t;
+	#define portMAX_DELAY ( TickType_t ) 0xffff
+#else
+	typedef uint32_t TickType_t;
+	#define portMAX_DELAY ( TickType_t ) 0xffffffffUL
+#endif
+/*-----------------------------------------------------------*/
 
-/* Co-routine definitions. */
-#define configUSE_CO_ROUTINES 		0
-#define configMAX_CO_ROUTINE_PRIORITIES ( 2 )
+/* Critical section management. */
+#define portENTER_CRITICAL()		asm volatile ( "in		__tmp_reg__, __SREG__" :: );	\
+									asm volatile ( "cli" :: );								\
+									asm volatile ( "push	__tmp_reg__" :: )
 
-/* Set the following definitions to 1 to include the API function, or zero
-to exclude the API function. */
+#define portEXIT_CRITICAL()			asm volatile ( "pop		__tmp_reg__" :: );				\
+									asm volatile ( "out		__SREG__, __tmp_reg__" :: )
 
-#define INCLUDE_vTaskPrioritySet		0
-#define INCLUDE_uxTaskPriorityGet		0
-#define INCLUDE_vTaskDelete				1
-#define INCLUDE_vTaskCleanUpResources	0
-#define INCLUDE_vTaskSuspend			1
-#define INCLUDE_vTaskDelayUntil			1
-#define INCLUDE_vTaskDelay				1
+#define portDISABLE_INTERRUPTS()	asm volatile ( "cli" :: );
+#define portENABLE_INTERRUPTS()		asm volatile ( "sei" :: );
+/*-----------------------------------------------------------*/
 
+/* Architecture specifics. */
+#define portSTACK_GROWTH			( -1 )
+#define portTICK_PERIOD_MS			( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#define portBYTE_ALIGNMENT			1
+#define portNOP()					asm volatile ( "nop" );
 
-#endif /* FREERTOS_CONFIG_H */
+#define portPOINTER_SIZE_TYPE uint16_t
+/*-----------------------------------------------------------*/
+
+/* Kernel utilities. */
+extern void vPortYield( void ) __attribute__ ( ( naked ) );
+#define portYIELD()					vPortYield()
+/*-----------------------------------------------------------*/
+
+/* Task function macros as described on the FreeRTOS.org WEB site. */
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* PORTMACRO_H */
+
